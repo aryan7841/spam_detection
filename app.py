@@ -5,6 +5,7 @@ import re
 import nltk
 
 nltk.download('punkt')
+nltk.download('punkt_tab')   # 🔴 ADD THIS LINE
 nltk.download('stopwords')
 nltk.download('wordnet')
 
@@ -33,7 +34,7 @@ def clean_text(text):
     # 6. Remove stopwords & punctuation
     tokens = [word for word in tokens if word not in stop_words and word.isalpha()]
 
-    # 7. Lemmatization (optional but recommended)
+    # 7. Lemmatization
     tokens = [lemmatizer.lemmatize(word) for word in tokens]
 
     # 8. Join tokens back
@@ -43,22 +44,21 @@ def clean_text(text):
 tfidf = pickle.load(open('vectorizerff.pkl','rb'))
 model = pickle.load(open('modelff.pkl','rb'))
 
-st.title("emain/sms spam classifier")
+st.title("email/sms spam classifier")
 
 inp_email = st.text_input("enter the message")
 if st.button("predict"):
-#preprocess
-    transform_email = clean_text((inp_email))
+    # preprocess
+    transform_email = clean_text(inp_email)
 
-# vectorize
+    # vectorize
     vector_i = tfidf.transform([transform_email])
 
-# predict
+    # predict
     result = model.predict(vector_i)
 
-#display
+    # display
     if result == 1:
         st.header("spam")
     else:
-
         st.header("not spam")
