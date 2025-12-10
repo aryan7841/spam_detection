@@ -3,6 +3,11 @@ import pickle
 
 import re
 import nltk
+
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')
+
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 
@@ -55,4 +60,5 @@ if st.button("predict"):
     if result == 1:
         st.header("spam")
     else:
+
         st.header("not spam")
